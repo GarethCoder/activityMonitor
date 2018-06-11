@@ -1,0 +1,31 @@
+<div id='chart-container'>
+    <div id="title">
+        <h1>Modules</h1>
+    </div>
+    <br>
+    <br>
+
+    <oj-chart id="barChart" type="bar" orientation="[[orientationValue]]" stack="[[stackValue]]" series="[[barSeriesValue]]"
+        groups="{{barGroupsValue}}" animation-on-display="auto" animation-on-data-change="auto" hover-behavior="dim" style="max-width:500px;width:100%;height:380px;">
+    </oj-chart>
+
+
+    <oj-dialog style="display:none;width: 50vw; height: 70vh;" id="dialog1" modality="modeless" on-oj-animate-start='[[startAnimationListener]]'>
+        <div slot='header' data-bind="text: lineTitle"></div>
+        <div slot="body">
+            <div id='chart-container'>
+                <div id="title">
+                    <h1>Users Per Module Per Day</h1>
+                </div>
+                <hr>
+                <oj-chart id="lineChart" type="line" orientation="[[orientationValueLine]]" stack="[[stackValue]]" series="[[lineSeriesValue]]"
+                    groups="[[lineGroupsValue]]" animation-on-display="auto" animation-on-data-change="auto" hover-behavior="dim"
+                    style="max-width:500px;width:100%;height:380px;">
+                </oj-chart>
+            </div>
+        </div>
+        <div slot="footer">
+            <oj-button id="okButton" data-bind="click: handleOKClose">OK</oj-button>
+        </div>
+    </oj-dialog>
+</div>

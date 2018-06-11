@@ -1,0 +1,20 @@
+<div>
+  <div class="oj-flex oj-sm-flex-direction-column">
+    <div class="oj-flex-item">
+      <div id="title">
+        <h1>Retention Days</h1>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+
+  <div class="rentention-container">
+    <oj-status-meter-gauge id="gauge8" min="0" max="100" value="{{noOfRententionDays}}" start-angle="180" angle-extent="180"
+      orientation="circular" class="circular-status-meter-common circular-status-meter-large" readonly>
+    </oj-status-meter-gauge>
+
+    <!-- Messages -->
+    <span class="hidden" id="error">Error loading data</span>
+  </div>

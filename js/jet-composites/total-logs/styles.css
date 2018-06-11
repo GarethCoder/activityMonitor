@@ -1,0 +1,3 @@
+total-logs:not(.oj-complete) {
+    visibility: hidden;
+}

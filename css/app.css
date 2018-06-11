@@ -1,0 +1,374 @@
+.component_block {
+    /* border: 1px solid white; */
+    background-color: white;
+    justify-content: center;
+    margin-left: 5px;
+}
+
+#log-dates {
+    height: 137px;
+}
+
+#title {
+    display: flex;
+    justify-content: center;
+}
+
+#title h1 {
+    font-family: Charcoal, sans-serif;
+    font-size: 23px;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    color: #000000;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+}
+
+.circular-status-meter-common {
+    align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 45%;
+}
+
+.circular-status-meter-large {
+    height: 70px;
+}
+
+.rentention-container {
+    display: flex;
+    justify-content: center;
+}
+
+#overlay {
+    /* width: 100vw;*/
+    height: 100vh;
+    background-color: #F0F0F0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    margin: 100px auto;
+    width: 100px;
+    height: 140px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.spinner div {
+    background-color: #333;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+    0%,
+    40%,
+    100% {
+        -webkit-transform: scaleY(0.4)
+    }
+    20% {
+        -webkit-transform: scaleY(1.0)
+    }
+}
+
+@keyframes sk-stretchdelay {
+    0%,
+    40%,
+    100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
+
+@-webkit-keyframes sk-stretchdelay {
+    0%,
+    40%,
+    100% {
+        -webkit-transform: scaleY(0.4)
+    }
+    20% {
+        -webkit-transform: scaleY(1.0)
+    }
+}
+
+@keyframes sk-stretchdelay {
+    0%,
+    40%,
+    100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
+
+@media (max-width: 1024px) {
+    .module {
+        margin-left: 0px;
+    }
+}
+
+/* ------------------------------------------------------- */
+
+/* global styles */
+
+account-graph hr,
+mobile-graph hr,
+modules-graph hr,
+retention-graph hr,
+total-logs hr {
+    width: 96%;
+    padding: 2px;
+    margin: 5px;
+}
+
+account-graph #title,
+mobile-graph #title,
+modules-graph #title,
+retention-graph #title,
+total-logs #title,
+#title {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    color: #000000
+}
+
+account-graph #title h1,
+mobile-graph #title h1,
+modules-graph #title h1,
+retention-graph #title h1,
+total-logs #title h1,
+#title h1 {
+    font-family: Charcoal, sans-serif;
+    font-size: 23px;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    color: #000000;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    margin-top: 10px;
+}
+
+/* end of global styles */
+
+/* ------------------------------------------------------- */
+
+/* account graph */
+
+#account-graph-container {
+    background-color: #ffff;
+    height: 653px;
+    width: 100%;
+    margin: 0 0 0 5px;
+    padding: 0;
+}
+
+account-graph #pieChart {
+    width: 100%;
+    height: 500px;
+}
+
+account-graph tbody::-webkit-scrollbar {
+    width: 10px;
+}
+
+account-graph tbody::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+account-graph tbody::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+account-graph .label-export {
+    padding-left: 0px;
+}
+
+account-graph .demo-icon-font {
+    padding-right: 0px;
+    border: 1px soid red;
+}
+
+account-graph .offGrid {
+    display: none;
+}
+
+account-graph .container {
+    height: auto;
+    width: 100%;
+}
+
+account-graph .exportButtonContainer {
+    display: flex;
+    justify-content: center;
+}
+
+/* end of account graph css */
+
+/* ------------------------------------------------------- */
+
+/* mobile graph css */
+
+#mobile-graph-container {
+    background-color: #ffff;
+    height: 164px;
+    margin-left: 5px;
+    margin-bottom: 6px;
+}
+
+mobile-graph #picto-container {
+    width: 100%;
+    height: 137px;
+}
+
+mobile-graph #legend-container {
+    display: flex;
+    justify-content: center;
+    width: 76%;
+    margin-left: 65px;
+}
+
+/* end of mobile graph css */
+
+/* ------------------------------------------------------- */
+
+/* modules graph css */
+
+#modules-graph-container {
+    background-color: #ffff;
+    height: 100%;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+modules-graph oj-chart {
+    padding: 10px;
+    margin-left: 5px;
+}
+
+modules-graph #barChart {
+    cursor: pointer;
+}
+
+/* end of modules graph css */
+
+/* ------------------------------------------------------- */
+
+/* retention graph css */
+
+#retention-graph-container {
+    background-color: #ffff;
+    height: 164px;
+    margin-left: 5px;
+    margin-bottom: 6px;
+}
+
+retention-graph .circular-status-meter-common {
+    align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 45%;
+}
+
+retention-graph .circular-status-meter-large {
+    height: 70px;
+}
+
+retention-graph .rentention-container {
+    display: flex;
+    justify-content: center;
+}
+
+retention-graph .hidden {
+    display: none;
+}
+
+/* end of retention graph css */
+
+/* total logs css */
+
+#total-logs-container {
+    background-color: #ffff;
+    height: 100%;
+    margin-left: 5px;
+    margin-bottom: 6px;
+}
+
+total-logs .gauge-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+total-logs #head {
+    font-size: 25px;
+}
+
+/* end of total logs css */
+
+/* MEDIA QUERIES */
+
+@media (min-width: 481px) and (max-width: 767px) {
+    account-graph oj-chart #pieChart {
+        width: 100%;
+        height: 340px;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    #account-graph-container {
+        background-color: #ffff;
+        height: auto;
+        width: 100%;
+        margin: 0 0 0 5px;
+        padding: 0;
+    }
+    account-graph #pieChart {
+        width: 100%;
+        height: 340px;
+    }
+}

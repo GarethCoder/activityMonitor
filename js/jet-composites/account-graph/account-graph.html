@@ -1,0 +1,25 @@
+<div class="container">
+    <div id="title">
+        <h1>Accounts</h1>
+    </div>
+
+    <hr>
+    <div class="exportButtonContainer">
+        <button class="ui button" id="exportFileBtn" on-click="[[exportFile]]">
+            <i class="file icon"></i>
+            Export Excel Spreadsheet
+        </button>
+    </div>
+
+
+    <br>
+    <br>
+    <oj-table id="accounttable" aria-label="Departments Table" data='[[dataprovider]]' columns-default='{"sortable": "disabled"}'
+        columns='[[columnArray]]' style='width: 100%; height:200px;position: fixed'>
+    </oj-table>
+
+
+    <oj-chart id="pieChart" type="pie" series="[[pieSeriesValue]]" animation-on-display="auto" animation-on-data-change="auto"
+        hidden-categories='{{hiddenCategories}}' style-defaults.data-label-position="[[dataLabelPositionValue]]">
+    </oj-chart>
+</div>
