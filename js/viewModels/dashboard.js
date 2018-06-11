@@ -79,7 +79,7 @@ define([
           // call appstage backend
           let url = "appstagebackend.steltix.com";
           dataImports(host);
-        } else if (host.includes('appshare')) {
+        } else if (host.includes('appshare') || host.includes('appstagejet')) {
           // call appshare backend
           let url = "appsharebackend.steltix.com";
           dataImports(host);
