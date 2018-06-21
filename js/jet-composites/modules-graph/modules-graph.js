@@ -32,41 +32,68 @@ define(
                     } catch (error) {
                         //   
                     }
-
-
                 });
             });
 
             self.sliderValue = ko.observable(400);
 
-            self.openAnimationEffect = ko.observable("flipIn");
+            self.openAnimationEffect = ko.observable("zoomIn");
+            self.closeAnimationEffect = ko.observable("zoomOut");
 
             self.startAnimationListener = function (event) {
                 var ui = event.detail;
                 if (!$(event.target).is(".oj-dialog")) return;
 
-                if ("open" === ui.action) {
+                if (ui.action === "open") {
                     event.preventDefault();
                     var action = self.openAnimationEffect();
                     var options = {
                         "duration": self.sliderValue() + "ms"
                     };
-                    if ("none" === action)
+                    if ("none" === action) {
                         ui.endCallback();
-                    else
+
+                    } else {
                         oj.AnimationUtils[action](ui.element, options).then(ui.endCallback);
+                    };
                 } else if ("close" === ui.action) {
                     event.preventDefault();
                     ui.endCallback();
-                }
+                };
+
             };
 
-            self.handleOpen = function (module) {
+            self.endAnimationListener = function (event) {
+                var ui = event.detail;
+
+                if (!$(event.target).is(".oj-dialog")) return;
+
+                if (ui.action === "close") {
+                    event.preventDefault();
+                    var action = self.closeAnimationEffect();
+                    var options = {
+                        "duration": self.sliderValue() + "ms"
+                    };
+
+                    event.preventDefault();
+                    oj.AnimationUtils[action](ui.element, options).then(ui.endCallback);
+                    if ("none" === action) {
+                        ui.endCallback();
+                    } else {
+                        oj.AnimationUtils[action](ui.element, options).then(ui.endCallback);
+                    };
+                };
+            };
+
+
+            self.handleOpen = function () {
                 document.querySelector("#dialog1").open();
             };
             self.handleOKClose = function () {
                 document.querySelector("#dialog1").close();
             };
+
+            // scrolling disable and enable
 
             /////////////////////////////////////////////////////////////////////
             self.lineTitle = ko.observable();
@@ -225,23 +252,20 @@ define(
             }
 
 
-            context.props.then(function (propertyMap) {
-                //Store a reference to the properties for any later use
-                self.properties = propertyMap;
+            self.composite.addEventListener('dataChanged', (evt) => {
+                context.props.then((propertyMap) => {
+                    self.properties = propertyMap;
 
-                //Parse your component properties here 
-                setTimeout(() => {
                     new ProccessGraph(self.properties.data, self.properties.config);
                     self.data(self.properties.data);
                     self.configData(self.properties.config);
-                    setInterval(() => {
-                        if (self.properties.data !== self.data()) {
-                            self.data(self.properties.data);
-                            self.configData(self.properties.config);
-                            new ProccessGraph(self.properties.data, self.properties.config);
-                        }
-                    }, 1000)
-                }, 1000)
+
+                    if (self.properties.data !== self.data()) {
+                        self.data(self.properties.data);
+                        self.configData(self.properties.config);
+                        new ProccessGraph(self.properties.data, self.properties.config);
+                    };
+                });
             });
         };
 

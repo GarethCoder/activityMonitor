@@ -2,6 +2,7 @@
     <div id="title">
         <h1>Modules</h1>
     </div>
+    <hr>
     <br>
     <br>
 
@@ -10,22 +11,22 @@
     </oj-chart>
 
 
-    <oj-dialog style="display:none;width: 50vw; height: 70vh;" id="dialog1" modality="modeless" on-oj-animate-start='[[startAnimationListener]]'>
+    <oj-dialog style="display:none;width: 100vw; height: 100vh;" id="dialog1" modality="modeless" on-oj-animate-start='[[startAnimationListener]]'
+        on-oj-animate-end='[[endAnimationListener]]' cancel-behavior="none" class="modal-header" drag-affordance="none">
         <div slot='header' data-bind="text: lineTitle"></div>
         <div slot="body">
             <div id='chart-container'>
-                <div id="title">
+                <div id="title" class="modal-sub-header">
                     <h1>Users Per Module Per Day</h1>
                 </div>
                 <hr>
                 <oj-chart id="lineChart" type="line" orientation="[[orientationValueLine]]" stack="[[stackValue]]" series="[[lineSeriesValue]]"
-                    groups="[[lineGroupsValue]]" animation-on-display="auto" animation-on-data-change="auto" hover-behavior="dim"
-                    style="max-width:500px;width:100%;height:380px;">
+                    groups="[[lineGroupsValue]]" animation-on-display="auto" animation-on-data-change="auto" hover-behavior="dim">
                 </oj-chart>
             </div>
         </div>
         <div slot="footer">
-            <oj-button id="okButton" data-bind="click: handleOKClose">OK</oj-button>
+            <oj-button id="okButton" data-bind="click: handleOKClose">Back</oj-button>
         </div>
     </oj-dialog>
 </div>

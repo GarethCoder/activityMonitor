@@ -4,13 +4,14 @@
 */
 define(
     ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojpictochart', 'ojs/ojlegend', 'serviceworker'],
-    function(oj, ko, $) {
+    function (oj, ko, $) {
         'use strict';
 
         function MobileComponentModel(context) {
             var self = this;
             self.composite = context.element;
 
+            self.data = ko.observableArray();
             self.legendSections = ko.observableArray();
             self.symbolWidth = ko.observable(22);
             self.symbolHeight = ko.observable(22);
@@ -20,53 +21,48 @@ define(
 
                 let totalDesktopDevices = data.filter(log => {
                     if (log.mobile === false) {
-                        return log;
+                        if (log.action == 'login') {
+                            return log;
+                        }
                     };
                 });
 
                 let totalMobileDevices = data.filter(log => {
                     if (log.mobile === true) {
-                        return log;
+                        if (log.action == 'login') {
+                            return log;
+                        }
                     };
                 });
 
+                let totalLogins = totalDesktopDevices.length + totalMobileDevices.length;
 
-                let totalLogs = data.length;
+                let totalDesktops = Number(totalLogins) - Number(totalMobileDevices.length);
 
-                let totalDesktops = Number(totalLogs) - Number(totalMobileDevices.length);
-
-                let totalMobile = Number(totalLogs) - Number(totalDesktops);
+                let totalMobile = Number(totalLogins) - Number(totalDesktops);
 
                 self.legendSections([{
-                    items: [
-                        { text: `${totalDesktops} Desktops`, color: "#267db3", markerShape: "human" },
-                        { text: `${totalMobile} Mobile`, color: "#68c182", markerShape: "human" }
+                    items: [{
+                            text: `${totalDesktops} Desktops`,
+                            color: "#267db3",
+                            markerShape: "human"
+                        },
+                        {
+                            text: `${totalMobile} Mobile`,
+                            color: "#68c182",
+                            markerShape: "human"
+                        }
                     ]
                 }]);
             };
 
+            self.composite.addEventListener('dataChanged', (evt) => {
+                new MobileChartView(evt.detail.value);
+                self.data(evt.detail.value);
 
-            self.data = ko.observableArray();
-
-            // Get Data
-            context.props.then(function(propertyMap) {
-                //Store a reference to the properties for any later use
-                self.properties = propertyMap;
-
-                //Parse your component properties here 
-                if (self.properties) {
-
-                    setTimeout(() => {
-                        new MobileChartView(self.properties.data);
-                        self.data(self.properties.data);
-
-                        setInterval(() => {
-                            if (self.properties.data !== self.data()) {
-                                self.data(self.properties.data);
-                                new MobileChartView(self.properties.data);
-                            }
-                        }, 1000)
-                    }, 1000);
+                if (self.data() !== evt.detail.value) {
+                    new MobileChartView(evt.detail.value);
+                    self.data(evt.detail.value);
 
                 }
             });

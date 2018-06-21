@@ -19,6 +19,26 @@
     </div>
 </div>
 
+<div class="toolbar-header">
+    <oj-toolbar id='myToolbar' aria-label='Editing Toolbar' aria-controls='controlled'>
+        <div id="containerDiv">
+            <div class="filterContainer">
+                <div id="form-container">
+                    <oj-form-layout label-edge="{{labelEdge}}">
+                        <oj-select-one id="customerOptions" options="[[accounts]]" placeholder="Select a account" aria-label="Single Select" value="{{val}}"
+                            on-value-changed="[[selectedValue]]" disabled="{{isDisabled}}"></oj-select-one>
+                    </oj-form-layout>
+                </div>
+            </div>
+
+            <p id="readableRetentionDays">
+                <span class="oj-text-secondary-color" data-bind="text: readSinceDate"></span>
+            </p>
+        </div>
+    </oj-toolbar>
+</div>
+
+
 <div class="demo-grid-sizes demo-flex-display">
     <div class="oj-flex oj-flex-items-pad" style="height:100%;">
         <div id="total-logs-container" class="oj-sm-12 oj-md-4 oj-lg-3 oj-flex-item">
@@ -37,24 +57,13 @@
                 <div id="title">
                     <h1>Appshare Logs</h1>
                 </div>
-
                 <hr>
-
-                <div id="containerDiv">
-                    <div class="filterContainer">
-                        <div id="form-container">
-                            <oj-form-layout label-edge="{{labelEdge}}">
-                                <oj-select-one id="customerOptions" options="[[accounts]]" label-hint="Filter By Account:" value="{{val}}" on-value-changed="[[selectedValue]]"
-                                    disabled="{{isDisabled}}"></oj-select-one>
-                                <oj-input-date id="date" class="dateSelector" label-hint="Filter By Day:" value='{{dayValue}}' on-value-changed="[[selectedDay]]"
-                                    converter='{
-                                    "type":"datetime", 
-                                    "options": {"year": "numeric", "month": "long", "day": "numeric"}}'></oj-input-date>
-                                <oj-checkboxset labelled-by="mainlabelid" class='oj-choice-direction-row' value="{{orderByDate}}" on-value-changed="[[orderByDateFunc]]">
-                                    <oj-option id="order" value="orderByDate">Apply Date Filter</oj-option>
-                                </oj-checkboxset>
-                            </oj-form-layout>
-                        </div>
+                <div class="filterContainer">
+                    <div id="form-container">
+                        <oj-form-layout label-edge="{{labelEdge}}">
+                            <oj-select-one id="customerOptions" options="[[accounts]]" label-hint="Filter By Account:" value="{{val}}" on-value-changed="[[selectedValue]]"
+                                disabled="{{isDisabled}}"></oj-select-one>
+                        </oj-form-layout>
                     </div>
                 </div>
                 <br>

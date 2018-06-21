@@ -26,7 +26,11 @@ define(
 
                     data.forEach(log => {
                         if (log.action == 'login') {
-                            loginsMap[log.action] === undefined ? loginsMap[log.action] = 1 : loginsMap[log.action] += 1;
+                            if (loginsMap[log.action] === undefined) {
+                                loginsMap[log.action] = 1;
+                            } else {
+                                loginsMap[log.action] += 1;
+                            }
                         };
                     });
 
@@ -36,22 +40,15 @@ define(
                 };
             };
 
-            context.props.then(function (propertyMap) {
-                //Store a reference to the properties for any later use
-                self.properties = propertyMap;
-                setTimeout(() => {
-                    initialiseGauge(self.properties.data);
 
-                    self.data(self.properties.data);
+            self.composite.addEventListener('dataChanged', (evt) => {
+                self.data(evt.detail.value);
 
-                    setInterval(() => {
-                        if (self.properties.data !== self.data()) {
-                            initialiseGauge(self.properties.data);
+                initialiseGauge(self.data());
 
-                            self.data(self.properties.data);
-                        }
-                    }, 1000)
-                }, 1000)
+                if (self.data() !== evt.detail.value) {
+                    initialiseGauge(self.data());
+                }
             });
         };
 

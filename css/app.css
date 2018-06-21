@@ -1,8 +1,24 @@
+.oj-offcanvas-outer-wrapper.oj-offcanvas-page {
+    overflow-y: hidden;
+}
+
+.oj-web-applayout-content {
+    padding: 20px 0 0 60px;
+}
+
 .component_block {
     /* border: 1px solid white; */
     background-color: white;
     justify-content: center;
     margin-left: 5px;
+}
+
+#myToolbar {
+    display: none;
+}
+
+.toolbar-header {
+    display: none;
 }
 
 #log-dates {
@@ -198,15 +214,15 @@ total-logs #title h1,
 
 #account-graph-container {
     background-color: #ffff;
-    height: 653px;
+    height: 587px;
     width: 100%;
-    margin: 0 0 0 5px;
+    margin: 0 0 0 10px;
     padding: 0;
 }
 
 account-graph #pieChart {
     width: 100%;
-    height: 500px;
+    height: 450px;
 }
 
 account-graph tbody::-webkit-scrollbar {
@@ -243,6 +259,15 @@ account-graph .container {
 account-graph .exportButtonContainer {
     display: flex;
     justify-content: center;
+}
+
+#accounttable {
+    border: 1px solid;
+    width: 39%;
+    height: 450px;
+    position: fixed;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 /* end of account graph css */
@@ -285,11 +310,29 @@ mobile-graph #legend-container {
 
 modules-graph oj-chart {
     padding: 10px;
-    margin-left: 5px;
+    margin-left: 9px;
 }
 
 modules-graph #barChart {
     cursor: pointer;
+}
+
+.oj-dialog-header {
+    background-color: #146FC9;
+    color: #ffffff
+}
+
+.modal-sub-header {
+    font-size: 18px;
+}
+
+#lineChart {
+    border: 4px solid #ffffff;
+    border-radius: .5em;
+    width: 90vw;
+    height: 400px;
+    margin: 50px 0 0 50px;
+    background-color: #ffff;
 }
 
 /* end of modules graph css */
@@ -353,13 +396,138 @@ total-logs #head {
 /* MEDIA QUERIES */
 
 @media (min-width: 481px) and (max-width: 767px) {
+    .oj-label,
+    .oj-label-nocomp {
+        display: none;
+    }
+    #filterCustomers {
+        display: none;
+    }
+    .filterContainer {
+        width: 50%;
+        padding: 0 0px 0px 5px;
+    }
+    #myToolbar {
+        display: block;
+        width: 100vw;
+        height: 100px;
+        margin: 0;
+        padding: 10px 0 0 0;
+        top: 0;
+        right: 0;
+        left: 0;
+    }
+    .showHeader {
+        visibility: visible;
+        animation: showHeader 1.5s forwards;
+    }
+    @keyframes showHeader {
+        from {
+            transform: translateY(-200px);
+        }
+        to {
+            transform: translateY(0px);
+        }
+    }
+    .toolbar-header {
+        display: block;
+        transform: translateY(-200px);
+        border: 1px solid #146FC9;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        position: fixed;
+        top: 0;
+        background-color: #146FC9;
+        color: #ffff;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+    #form-container label {
+        display: none
+    }
+    #readableRetentionDays {
+        padding: 0 0 0 7px;
+    }
+    #readableRetentionDays span {
+        color: #ffffff;
+    }
     account-graph oj-chart #pieChart {
         width: 100%;
         height: 340px;
     }
+    .oj-web-applayout-content {
+        padding: 120px 5px 0px 0px;
+    }
+    #lineChart {
+        border: 4px solid #ffffff;
+        border-radius: .5em;
+        width: 90vw;
+        height: 400px;
+        margin: 20px 0 0 17px;
+        background-color: #ffff;
+    }
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
+    .oj-label,
+    .oj-label-nocomp {
+        display: none;
+    }
+    #filterCustomers {
+        display: none;
+    }
+    .filterContainer {
+        width: 50%;
+        padding: 0 0px 0px 5px;
+    }
+    #myToolbar {
+        display: block;
+        width: 100vw;
+        height: 76px;
+        margin: 0;
+        padding: 10px 0 0 0;
+        top: 0;
+        right: 0;
+        left: 0;
+    }
+    .showHeader {
+        visibility: visible;
+        animation: showHeader 1.5s forwards;
+    }
+    @keyframes showHeader {
+        from {
+            transform: translateY(-200px);
+        }
+        to {
+            transform: translateY(0px);
+        }
+    }
+    .toolbar-header {
+        display: block;
+        transform: translateY(-200px);
+        border: 1px solid #146FC9;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        position: fixed;
+        top: 0;
+        background-color: #146FC9;
+        color: #ffff;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+    #form-container label {
+        display: none
+    }
+    #readableRetentionDays {
+        padding: 0 0 0 7px;
+    }
+    #readableRetentionDays span {
+        color: #ffffff;
+    }
     #account-graph-container {
         background-color: #ffff;
         height: auto;
@@ -370,5 +538,16 @@ total-logs #head {
     account-graph #pieChart {
         width: 100%;
         height: 340px;
+    }
+    .oj-web-applayout-content {
+        padding: 86px 5px 0px 0px;
+    }
+    #lineChart {
+        border: 4px solid #ffffff;
+        border-radius: .5em;
+        width: 90vw;
+        height: 400px;
+        margin: 20px 0 0 5px;
+        background-color: #ffff;
     }
 }

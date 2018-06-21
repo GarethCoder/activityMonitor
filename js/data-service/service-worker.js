@@ -1,9 +1,8 @@
 const serviceworker = (() => {
-    const getLogData = (method, url, data) => {
+    const getLogData = (method, url) => {
         let logData = $.ajax({
             method: method,
             url: url,
-            data: data,
             success: ((logs) => {
                 return logs;
             }),

@@ -7,6 +7,7 @@ define(
             var self = this;
             $(document).ready(() => {
                 $("#accounttable").addClass("offGrid");
+                // $("#pieChart").addClass('offGrid');
             });
 
             self.composite = context.element;
@@ -35,7 +36,7 @@ define(
                     console.log('building table headers')
                     createTableHeaders(modifiedLogs);
 
-                    // self.dataprovider(new oj.ArrayDataProvider(modifiedLogs));
+                    self.dataprovider(new oj.ArrayDataProvider(modifiedLogs));
 
                     self.logArray(modifiedLogs);
                 };
@@ -97,7 +98,7 @@ define(
 
                 const createTableHeaders = function (logs) {
                     let rowData = [];
-
+                    headers = [];
                     if (logs.length > 0) {
                         var keys = Object.keys(logs[0])
 
@@ -128,6 +129,8 @@ define(
                 $("#exportFileBtn").addClass('loading');
                 let modifiedHeadings = [];
 
+                console.log(self.columnArray());
+
                 self.columnArray().forEach(heading => {
                     let upperCaseHeading = heading.headerText.charAt(0).toUpperCase() + heading.headerText.slice(1);
                     if (upperCaseHeading == 'Datetime') {
@@ -136,25 +139,13 @@ define(
                     modifiedHeadings.push(upperCaseHeading);
                 });
 
+                console.log(modifiedHeadings);
 
-                let result = await self.dataprovider(new oj.ArrayDataProvider(self.logArray()));
+                export_table_to_excel("Appshare", "Accounts", "accounttable", undefined, modifiedHeadings);
 
-                console.log(result);
-                const buildTable = setInterval(() => {
-                    if (result) {
-                        export_table_to_excel("Appshare", "Accounts", "accounttable", undefined, modifiedHeadings);
+                console.log('loading...');
 
-                        console.log('loading...');
-                        self.dataprovider(new oj.ArrayDataProvider([]));
-
-
-                        clearInterval(buildTable);
-
-                        $("#exportFileBtn").removeClass('loading');
-
-                    }
-                }, 500);
-
+                $("#exportFileBtn").removeClass('loading');
             };
 
             /// ACTION CHART
@@ -201,26 +192,23 @@ define(
 
             self.hiddenCategories = ko.observableArray([]);
 
-            context.props.then(function (propertyMap) {
-                //Store a reference to the properties for any later use
-                self.properties = propertyMap;
+            self.composite.addEventListener('dataChanged', (evt) => {
 
+                context.props.then((propertyMap) => {
+                    self.properties = propertyMap;
 
-                setTimeout(() => {
                     AccountFunctions().initialiseTable(self.properties.data, self.properties.config);
                     actionChart.initialiseChart(self.properties.data);
                     self.data(self.properties.data);
                     self.configData(self.properties.config);
 
-                    setInterval(() => {
-                        if (self.properties.data !== self.data() || self.properties.config !== self.configData()) {
-                            AccountFunctions().initialiseTable(self.properties.data, self.properties.config);
-                            actionChart.initialiseChart(self.properties.data);
-                            self.data(self.properties.data);
-                            self.configData(self.properties.config);
-                        }
-                    }, 1000)
-                }, 1000)
+                    if (self.properties.data !== self.data() || self.properties.config !== self.configData()) {
+                        AccountFunctions().initialiseTable(self.properties.data, self.properties.config);
+                        actionChart.initialiseChart(self.properties.data);
+                        self.data(self.properties.data);
+                        self.configData(self.properties.config);
+                    };
+                });
             });
         };
         return AccountGraphicsComponentModel;

@@ -12,6 +12,7 @@ define([
   "ojs/ojbutton",
   "ojs/ojtimezonedata",
   "ojs/ojlabel",
+  'ojs/ojtoolbar',
   "jet-composites/modules-graph/loader",
   "jet-composites/account-graph/loader",
   "jet-composites/mobile-graph/loader",
@@ -28,12 +29,6 @@ define([
     // LOADING
     self.loadingValue = ko.observable("Loading...");
 
-    ///   LOG DATE
-    // Filter Functionality
-    self.dayValue = ko.observable(
-      oj.IntlConverterUtils.dateToLocalIso(new Date())
-    );
-    self.orderByDate = ko.observable([]);
     let counter = 0;
     self.val = ko.observable();
     self.isDisabled = ko.observable(false);
@@ -43,28 +38,65 @@ define([
     self.logs = ko.observableArray();
     self.configData = ko.observableArray();
 
+    self.readSinceDate = ko.observable();
+
     var rawData = [];
 
     const dataImports = (url) => {
       console.log(url);
+      let globalConfig;
       // pull in config data
       serviceworker
         .getConfigData("GET", `//${url}/readconfig`)
         .done(config => {
           self.configData(config);
+          readableSince(config);
+
+          // pull in log data
+          if (config) {
+            serviceworker
+              .getLogData("GET", `//${url}/readactivity/` + config.activityRetentionDays)
+              .done(logs => {
+                loading('data');
+
+                self.logs(logs);
+                rawData = logs;
+
+                buildDropDownList(true);
+              });
+          } else {
+            serviceworker
+              .getLogData("GET", `//${url}/readactivity/0`)
+              .done(logs => {
+                loading('data');
+
+                self.logs(logs);
+                rawData = logs;
+
+                buildDropDownList(true);
+              });
+          }
         });
 
-      // retreiving data from backend service
-      serviceworker
-        .getLogData("GET", `//${url}/readactivity`)
-        .done(logs => {
-          loading('data');
+    };
 
-          self.logs(logs);
-          rawData = logs;
+    // readable since (retention days)
+    const readableSince = (config) => {
+      let retentionDays = Number(config.activityRetentionDays);
 
-          buildDropDownList(true);
-        });
+      let today = new Date();
+
+      let lastRecorder = new Date(today.getTime() - (retentionDays * 24 * 60 * 60 * 1000));
+
+      let day = lastRecorder.getDate();
+      let month = lastRecorder.getMonth() + 1;
+      let year = lastRecorder.getFullYear();
+
+      let getDatePrior = new Date(`${month}-${day}-${year}`).toDateString().split(" ");
+      delete getDatePrior[0];
+      getDatePrior[2] = `${getDatePrior[2]},`;
+
+      self.readSinceDate(`Monitored Since:  ${getDatePrior.join(" ")}`);
     };
 
     // data initilisation
@@ -77,15 +109,15 @@ define([
 
         if (host.includes('appstage')) {
           // call appstage backend
-          let url = "appstagebackend.steltix.com";
+          host = "appstagebackend.steltix.com";
           dataImports(host);
         } else if (host.includes('appshare')) {
           // call appshare backend
-          let url = "appsharebackend.steltix.com";
+          host = "appsharebackend.steltix.com";
           dataImports(host);
         } else {
           // call appshare backend
-          let url = "appsharebackend.steltix.com";
+          host = "localhost:3001";
           dataImports(host);
         };
       };
@@ -101,30 +133,8 @@ define([
       if (url["search"]) {
         getParams(url["search"], option);
       } else {
-        if (self.orderByDate().length > 0) {
-          let modifiedDate = new Date(self.dayValue()).toLocaleDateString();
-
-          dateFilter(modifiedDate, option);
-        } else {
-          accountFilter(option);
-        };
+        accountFilter(option);
       };
-
-
-    };
-
-    self.selectedDay = event => {
-      event.preventDefault();
-      if (self.orderByDate().length > 0) {
-        if (counter > 0) {
-          let date = event.detail.value;
-          let modifiedDate = new Date(date).toLocaleDateString();
-
-          // call filter function
-          dateFilter(modifiedDate, self.val());
-        }
-      }
-      counter++;
     };
 
     self.isSmall = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(
@@ -281,54 +291,6 @@ define([
       } catch (error) {
         console.log("No Data Found");
       }
-
-      if (self.orderByDate().length > 0) {
-        let modifiedDate = new Date(self.dayValue()).toLocaleDateString();
-
-        dateFilter(modifiedDate, accountOption);
-      };
-    };
-
-    self.orderByDateFunc = () => {
-      if (self.orderByDate().length > 0) {
-        let modifiedDate = new Date(self.dayValue()).toLocaleDateString();
-        dateFilter(modifiedDate, self.val());
-      } else {
-        accountFilter(self.val());
-      }
-      return true;
-    };
-
-    const dateFilter = (dateOption, queryAccount) => {
-      let filteredData = [];
-      let queryAcc = queryAccount.toLowerCase();
-
-      if (dateOption) {
-        let date = dateOption;
-        if (date === "all days" && queryAcc === 'all accounts') {
-          self.logs(rawData);
-        } else if (date !== 'all days' && queryAcc === 'all accounts') {
-          rawData.filter(log => {
-            let logDate = log.datetime;
-            let modifiedLogDate = new Date(logDate).toLocaleDateString();
-
-            if (modifiedLogDate === date) {
-              filteredData.push(log);
-            };
-          });
-          self.logs(filteredData);
-        } else if (date !== 'all days' && queryAcc !== 'all accounts') {
-          rawData.filter(log => {
-            let logDate = log.datetime;
-            let modifiedLogDate = new Date(logDate).toLocaleDateString();
-
-            if (modifiedLogDate === date && log.account.toLowerCase() === queryAcc) {
-              filteredData.push(log);
-            };
-          });
-          self.logs(filteredData);
-        };
-      }
     };
 
     const loading = (message) => {
@@ -348,7 +310,8 @@ define([
     };
 
     $(document).ready(function () {
-      let totalLogs = $("#totalLogs");
+      // $(".toolbar-header").addClass('hideHeader');
+
       const loader = setInterval(function () {
         if (self.logs().length > 0) {
           loading('components');
@@ -357,8 +320,10 @@ define([
             $("#overlay").fadeOut('slow');
             loading('finished');
             $("body").css("overflow", "auto");
+            $(".toolbar-header").addClass('showHeader');
 
-          }, 5000);
+          }, 1000);
+
         };
       }, 500);
     });
@@ -366,4 +331,3 @@ define([
   }
   return new DashboardViewModel();
 });
-("");
