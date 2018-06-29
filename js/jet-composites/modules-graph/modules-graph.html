@@ -7,7 +7,8 @@
     <br>
 
     <oj-chart id="barChart" type="bar" orientation="[[orientationValue]]" stack="[[stackValue]]" series="[[barSeriesValue]]"
-        groups="{{barGroupsValue}}" animation-on-display="auto" animation-on-data-change="auto" hover-behavior="dim" style="max-width:500px;width:100%;height:380px;">
+        groups="{{barGroupsValue}}" animation-on-display="auto" legend.position="bottom" touchResponse="touchStart" legend.scrolling="off"
+        animation-on-data-change="auto" hover-behavior="dim" size="20px" style="max-width:500px;width:100%;height:380px;">
     </oj-chart>
 
 
@@ -26,7 +27,8 @@
             </div>
         </div>
         <div slot="footer">
-            <oj-button id="okButton" data-bind="click: handleOKClose">Back</oj-button>
+            <button id="okButton" class="ui primary button" data-bind="click: handleOKClose">Back</button>
+            <!-- <oj-button id="okButton" data-bind="click: handleOKClose">Back</oj-button> -->
         </div>
     </oj-dialog>
 </div>

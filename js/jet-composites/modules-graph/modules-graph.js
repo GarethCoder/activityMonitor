@@ -15,12 +15,30 @@ define(
             self.data = ko.observableArray();
             self.configData = ko.observableArray();
 
+            // touch event
+            self.touchResponse = (evt) => {
+                console.log(evt);
+            };
+
             // Modal and User per Day Graph
             $(document).ready(() => {
-                $("#barChart").on("click", (e) => {
+                var clickEvent = (function () {
+                    if ('ontouchstart' in document.documentElement === true)
+                        return 'touchstart';
+                    else
+                        return 'click';
+                })();
+
+                $("#barChart").on(clickEvent, (e) => {
                     try {
-                        let attributes = e.target.attributes["aria-label"].value;
+                        e.stopPropagation();
+                        e.preventDefault();
+
+                        let attributes;
+                        clickEvent == 'click' ? attributes = e.target.attributes["aria-label"].value : attributes = e.target.parentNode.attributes["aria-label"].value;
+
                         let splitLabel = attributes.split(";");
+
                         let name = splitLabel[0].split(": ");
 
                         let module = name[1];
@@ -30,7 +48,7 @@ define(
                             ProccessGraphLine(self.data(), module);
                         }
                     } catch (error) {
-                        //   
+                        console.log(error);
                     }
                 });
             });
@@ -88,9 +106,11 @@ define(
 
             self.handleOpen = function () {
                 document.querySelector("#dialog1").open();
+                $("body").css("overflow", "hidden");
             };
             self.handleOKClose = function () {
                 document.querySelector("#dialog1").close();
+                $("body").css("overflow", "auto");
             };
 
             // scrolling disable and enable

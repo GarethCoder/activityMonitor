@@ -117,7 +117,7 @@ define([
           dataImports(host);
         } else {
           // call appshare backend
-          host = "localhost:3001";
+          host = "appsharebackend.steltix.com";
           dataImports(host);
         };
       };
@@ -125,7 +125,9 @@ define([
     initilisation();
 
     self.selectedValue = event => {
+      event.stopPropagation();
       event.preventDefault();
+
       let option = event.detail.value;
 
       // check if param exist in url
@@ -133,6 +135,7 @@ define([
       if (url["search"]) {
         getParams(url["search"], option);
       } else {
+        // $("#filterCustomHolder").removeClass('hidden');
         accountFilter(option);
       };
     };
@@ -263,6 +266,7 @@ define([
     };
 
     const accountFilter = (accountOption, queryDetected = false) => {
+
       let filteredData = [];
 
       if (accountOption) {
@@ -311,8 +315,9 @@ define([
 
     $(document).ready(function () {
       // $(".toolbar-header").addClass('hideHeader');
-
       const loader = setInterval(function () {
+        $("body").css("overflow", "hidden");
+
         if (self.logs().length > 0) {
           loading('components');
           setTimeout(function () {
@@ -321,6 +326,7 @@ define([
             loading('finished');
             $("body").css("overflow", "auto");
             $(".toolbar-header").addClass('showHeader');
+            $("body").css("overflow", "auto");
 
           }, 1000);
 

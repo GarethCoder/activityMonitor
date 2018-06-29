@@ -13,6 +13,14 @@
     margin-left: 5px;
 }
 
+.hidden {
+    display: none;
+}
+
+.load {
+    display: flex;
+}
+
 #myToolbar {
     display: none;
 }
@@ -61,11 +69,31 @@
 
 #overlay {
     /* width: 100vw;*/
+    top: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    z-index: 1;
     height: 100vh;
     background-color: #F0F0F0;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#exportFileBtn {
+    background-color: #146FC9;
+    color: #ffff
+}
+
+#okButton {
+    background-color: #146FC9;
+    color: #ffff;
+}
+
+#filterHolder {
+    display: flex;
+    justify-content: center;
 }
 
 .spinner {
@@ -244,7 +272,7 @@ account-graph .label-export {
 
 account-graph .demo-icon-font {
     padding-right: 0px;
-    border: 1px soid red;
+    /* border: 1px soid red; */
 }
 
 account-graph .offGrid {
@@ -432,26 +460,27 @@ total-logs #head {
     .toolbar-header {
         display: block;
         transform: translateY(-200px);
-        border: 1px solid #146FC9;
+        border: 1px solid #1483C6;
         width: 100vw;
         margin: 0;
         padding: 0;
         position: fixed;
         top: 0;
-        background-color: #146FC9;
+        background-color: #1483C6;
         color: #ffff;
         left: 0;
         right: 0;
         z-index: 1;
     }
-    #form-container label {
-        display: none
+    #filterHolder {
+        display: flex;
+        justify-content: center;
     }
-    #readableRetentionDays {
-        padding: 0 0 0 7px;
-    }
-    #readableRetentionDays span {
+    #readSinceDate {
         color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     account-graph oj-chart #pieChart {
         width: 100%;
@@ -507,26 +536,23 @@ total-logs #head {
     .toolbar-header {
         display: block;
         transform: translateY(-200px);
-        border: 1px solid #146FC9;
+        border: 1px solid #1483C6;
         width: 100vw;
         margin: 0;
         padding: 0;
         position: fixed;
         top: 0;
-        background-color: #146FC9;
+        background-color: #1483C6;
         color: #ffff;
         left: 0;
         right: 0;
         z-index: 1;
     }
-    #form-container label {
-        display: none
-    }
-    #readableRetentionDays {
-        padding: 0 0 0 7px;
-    }
-    #readableRetentionDays span {
+    #readSinceDate {
         color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     #account-graph-container {
         background-color: #ffff;
